@@ -5,8 +5,9 @@ class Item {
   final String descripcion;
   final double precio;
   final String color;
+  bool isAdded; 
 
-  Item ({this.id, this.imgUrl, this.titulo, this.descripcion, this.precio, this.color});
+  Item ({this.id, this.imgUrl, this.titulo, this.descripcion, this.precio, this.color, this.isAdded: false});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
@@ -15,7 +16,8 @@ class Item {
       titulo: json['titulo'] as String,
       descripcion: json['descripcion'] as String,
       precio: json['precio'] as double,
-      color: json['color'] as String
+      color: json['color'] as String,
+      isAdded: false
     );
   }
 }

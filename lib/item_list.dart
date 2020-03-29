@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'utils/utils.dart';
 import 'item_card.dart';
 import './model/item.dart';
+import './cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class ItemList extends StatefulWidget {
   ItemList({Key, key}) : super(key: key);
@@ -12,10 +14,13 @@ class ItemList extends StatefulWidget {
 
 class _ItemListState extends State<ItemList> {
   Future<List> _futureItems;
+  List content;
   @override
   void initState() {
     super.initState();
-    _futureItems = getItems();
+    var provider = Provider.of<CartProvider>(context, listen: false);
+    var token = provider.authToken;
+    _futureItems = getItems(context, token);
   }
 
   @override
@@ -25,22 +30,25 @@ class _ItemListState extends State<ItemList> {
         future: _futureItems,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List content = snapshot.data;
-
+            content = snapshot.data;
             return content.isEmpty ? Center(child: Text("No hay productos disponibles")) : ListView.builder(
               itemCount: content.length,
               itemBuilder: (BuildContext context, int index) {
-                return ItemCard(id: content[index].id.toString(),
-                  imgUrl: content[index].imgUrl,
-                  titulo: content[index].titulo,
-                  descripcion: content[index].descripcion,
-                  precio: content[index].precio,
-                  color: content[index].color);
+                return ItemCard(
+                  content[index], () => onAddedPressed(index)
+                );
               }
             );
           }
         }
       )
     );
+  }
+  onAddedPressed(int index) {
+    final item = content[index];
+    print(item.titulo + item.isAdded);
+    setState(() {
+      item.isAdded = !item.isAdded;    
+    });
   }
 }

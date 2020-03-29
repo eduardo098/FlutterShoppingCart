@@ -2,19 +2,6 @@ import 'package:flutter/material.dart';
 import './model/item.dart';
 
 class CartProvider with ChangeNotifier {
-  /*
-  Map<String, dynamic> _cart = {};
-
-  Map<String, dynamic> get cart => _cart;
-
-  void addToCart(String index) {
-    if (_cart.containsKey(index)) {
-      _cart[index] += 1;
-    } else {
-      _cart[index] = 1;
-    }
-    notifyListeners();
-  }*/
 
   List<Item> _itemsCart = List<Item>();
   List<Item> get itemsCart => _itemsCart;
@@ -22,8 +9,21 @@ class CartProvider with ChangeNotifier {
   String _authToken = '';
   String get authToken => _authToken;
 
+  bool _isAdded = false;
+  bool get isAdded => _isAdded;
+
+  /*
+  void changeItemState(String id) {
+    for (int i = 0; i < _itemsCart.length; i++) {
+      if (_itemsCart[i].id == id) {
+        itemsCart[i].isAdded = !itemsCart[i].isAdded;
+      }
+    }
+    notifyListeners();
+  } */
+
   void addObjectToCart(Item item) {
-    if(!_itemsCart.asMap().containsValue(item.id)){
+    if(!_itemsCart.contains(item)){
       _itemsCart.add(item);
       notifyListeners();
     }
@@ -36,5 +36,6 @@ class CartProvider with ChangeNotifier {
 
   void setAuthToken(String token) {
     this._authToken = token;
+    notifyListeners();
   }
 }
