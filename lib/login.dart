@@ -73,11 +73,13 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 User user = new User(
                     email: emailController.text, password: passController.text);
-                login(context, body: user.toMap());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+                //login(context, body: user.toMap());
+                
+                login(context, body: user.toMap())
+                    .whenComplete(() => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                    ));
               },
             ),
           )

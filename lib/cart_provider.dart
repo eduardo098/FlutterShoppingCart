@@ -38,4 +38,9 @@ class CartProvider with ChangeNotifier {
     this._authToken = token;
     notifyListeners();
   }
+
+  void removeAuthToken() {
+    this._authToken = '';
+    notifyListeners();
+  }
 }
