@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'model/user.dart';
 import 'utils/utils.dart';
 import 'main.dart';
-import 'signup.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+class Signup extends StatefulWidget {
+  Signup({Key key}) : super(key: key);
 
   @override
-  _LoginState createState() => new _LoginState();
+  _SignupState createState() => new _SignupState();
 }
 
-class _LoginState extends State<Login> {
+class _SignupState extends State<Signup> {
+  TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Registro", style: TextStyle(fontFamily: "Raleway")),
+        centerTitle: true,
+        elevation: 0,
+      ),
         body: Center(
             child: Container(
       padding: EdgeInsets.all(25.0),
@@ -27,11 +32,24 @@ class _LoginState extends State<Login> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Bienvenido a la Tiendita",
+            "Registrate",
             style: TextStyle(fontSize: 25, fontFamily: 'Raleway'),
           ),
           SizedBox(
             height: 50,
+          ),
+          TextField(
+            controller: nameController,
+            obscureText: false,
+            style: TextStyle(fontFamily: 'Raleway', fontSize: 15.0),
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                hintText: "Nombre",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32.0))),
+          ),
+          SizedBox(
+            height: 20.0,
           ),
           TextField(
             controller: emailController,
@@ -57,53 +75,29 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(32.0))),
           ),
           SizedBox(
-            height: 30.0,
+            height: 20.0,
           ),
           ButtonTheme(
             height: 50,
-            minWidth: 250,
+            minWidth: 200,
             child: RaisedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(18.0),
               ),
               color: Colors.blue,
               child: const Text(
-                "Iniciar sesión",
+                "Continuar",
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
                 User user = new User(
-                    email: emailController.text, password: passController.text);
-                login(context, body: user.toMapLogin());
-                /*
-                login(context, body: user.toMap())
-                    .whenComplete(() => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                    ));*/
+                    name: nameController.text,
+                    email: emailController.text, 
+                    password: passController.text);
+                signUp(context, body: user.toMap());
               },
             ),
-          ),
-          SizedBox(height: 20,),
-          ButtonTheme(
-            height: 50,
-            minWidth: 250,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(18.0),
-              ),
-              color: Colors.white,
-              child: const Text(
-                "Registrate",
-                style: TextStyle(color: Colors.black87),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Signup()));
-              },
-            ),
-          ),
+          )
         ],
       ),
     )));

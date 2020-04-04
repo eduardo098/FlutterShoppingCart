@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CartProvider>(
-        builder: (context) => CartProvider(),
+        create: (context) => CartProvider(),
         child: MaterialApp(
             theme: ThemeData(primaryColor: Colors.white), home: Login()));
   }
@@ -34,11 +34,10 @@ class HomeScreen extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
-                onTap: () {
-                  signOut(context);
-                },
-                child: Text("Cerrar sesión")
-              )),
+                  onTap: () {
+                    signOut(context);
+                  },
+                  child: Icon(Icons.exit_to_app))),
         ],
       ),
       body: ItemList(),
@@ -63,8 +62,8 @@ class HomeScreen extends StatelessWidget {
     var provider = Provider.of<CartProvider>(context);
     provider.removeAuthToken();
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
     );
   }
 }
